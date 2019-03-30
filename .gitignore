@@ -1,0 +1,5 @@
+.idea
+.paket/.store
+*.DotSettings.user
+bin
+obj
