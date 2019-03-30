@@ -59,7 +59,6 @@ let handleUpdate (files : (string * DFile)[]) =
         files |> Array.iter (fun (fileName, file) -> interpreter.AddDecls file.Code)
         files |> Array.iter (fun (fileName, file) -> interpreter.EvalDecls (envEmpty, file.Code))
       )
-
     let mem = tryFindMemberInFiles "update" files
     match mem with
     | Some (def, expr) ->
@@ -67,6 +66,9 @@ let handleUpdate (files : (string * DFile)[]) =
             printfn "Found member!"
             let entity = interpreter.ResolveEntity(def.EnclosingEntity)
             printfn "Got entity! %A" entity
+            match entity with
+            | UEntity mainmeth -> printfn "mainmeth in %s" mainmeth.Name
+            | REntity ty -> printfn "got member of type %s" ty.FullName
             let (def, memberValue) = interpreter.GetExprDeclResult(entity, def.Name)
             printfn "Got member value! %A" memberValue
             let value = Interpreter.getVal memberValue

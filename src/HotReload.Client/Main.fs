@@ -10,22 +10,22 @@ type Model =
         value: int
     }
 
+type Message =
+    | Increment
+    | Decrement
+
+let mutable update = fun (message : Message) (model : Model) ->
+    match message with
+    | Increment -> { model with value = model.value + 1 }
+    | Decrement -> { model with value = model.value - 1 }
+
 let initModel =
     {
         value = 0
     }
 
 
-type Message =
-    | Increment
-    | Decrement
-
-let update (message : Message) (model : Model) =
-    match message with
-    | Increment -> { model with value = model.value + 1 }
-    | Decrement -> { model with value = model.value - 1 }
-
-let view model dispatch =
+let mutable view = fun model dispatch ->
     concat [
         button [on.click (fun _ -> dispatch Decrement)] [text "-"]
         span [] [textf " %i " model.value]
