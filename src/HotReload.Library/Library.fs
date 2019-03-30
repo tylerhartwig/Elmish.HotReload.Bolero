@@ -1,7 +1,9 @@
 ﻿module HotReload.Library
 
+open Microsoft.FSharp.Reflection
 open Microsoft.AspNetCore.SignalR.Client
 open BlazorSignalR
+open Elmish
 open FSharp.Compiler.PortaCode
 open FSharp.Compiler.PortaCode.CodeModel
 open FSharp.Compiler.PortaCode.Interpreter
@@ -50,7 +52,17 @@ let tryFindMemberInFiles memberName files =
 
 let interpreter = EvalContext(System.Reflection.Assembly.Load)
 
-let handleUpdate (files : (string * DFile)[]) =
+
+type ProgramUpdater<'msg,'model>(initial) =
+    let mutable update : 'msg -> 'model -> 'model * Cmd<'msg> = initial
+
+    member __.SwapUpdate newUpdate =
+        update <- newUpdate
+
+    member __.Update msg model = update msg model
+
+
+let handleUpdate (updater : ProgramUpdater<'msg, 'model>) (files : (string * DFile)[]) =
     printfn "Created interpreter! %A" interpreter
 
     lock interpreter (fun () ->
@@ -60,7 +72,14 @@ let handleUpdate (files : (string * DFile)[]) =
         files |> Array.iter (fun (fileName, file) -> interpreter.EvalDecls (envEmpty, file.Code))
       )
 
-    let mem = tryFindMemberInFiles "update" files
+    let getTypeForRef (ref : DEntityRef) =
+        let (DEntityRef name) = ref
+
+        match interpreter.ResolveEntity(ref) with
+        | REntity t -> t
+        | _ -> failwith "Couldn't resolve entity type"
+
+    let mem = tryFindMemberInFiles "UniqueUpdate" files
     match mem with
     | Some (def, expr) ->
         try
@@ -71,6 +90,27 @@ let handleUpdate (files : (string * DFile)[]) =
             printfn "Got member value! %A" memberValue
             let value = Interpreter.getVal memberValue
 
+            match value with
+            | :? MethodLambdaValue as mlv ->
+                let (MethodLambdaValue lambda) = mlv
+
+                updater.SwapUpdate(fun msg model ->
+                    try
+                        let untypedUpdater = lambda ([||], [| |])
+
+                        printfn "Call successful! Result: %A" untypedUpdater
+
+                        let updater = untypedUpdater :?> 'msg -> 'model -> 'model * Cmd<'msg>
+
+                        printfn "Successfully cast: %A" updater
+
+                        updater msg model
+//                        |> unbox<'model * Cmd<'msg>>
+                    with e ->
+                        printfn "Update call failed: %A" e
+                        model, Cmd.none)
+
+
             printfn "Got Value!: %A" value
         with e ->
             printfn "Got exception: %A" e
@@ -80,7 +120,19 @@ let handleUpdate (files : (string * DFile)[]) =
 
 
 
-let startConnection () =
+let startConnection updater =
     let hub = createConnection()
-    hub.On("Update", fun json -> deserialize json |> handleUpdate) |> ignore
+    hub.On("Update", fun json -> deserialize json |> handleUpdate updater) |> ignore
     connect hub |> Async.Start
+
+
+
+module Program =
+    let withHotReload (program : Program<_, _, _,_>) =
+        let updater = ProgramUpdater(program.update)
+
+        startConnection updater
+
+        { program with
+            update = updater.Update
+        }

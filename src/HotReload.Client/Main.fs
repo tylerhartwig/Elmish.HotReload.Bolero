@@ -1,6 +1,7 @@
 module HotReload.Client.Main
 
 open HotReload
+open HotReload.Library
 open Elmish
 open Bolero
 open Bolero.Html
@@ -22,8 +23,10 @@ type Message =
 
 let update (message : Message) (model : Model) =
     match message with
-    | Increment -> { model with value = model.value + 1 }
-    | Decrement -> { model with value = model.value - 1 }
+    | Increment ->
+        { model with value = model.value + 1 }, Cmd.none
+    | Decrement ->
+        { model with value = model.value - 1 }, Cmd.none
 
 let view model dispatch =
     concat [
@@ -33,15 +36,21 @@ let view model dispatch =
     ]
 
 
-//type public ReloadPackage() =
-//    let UniqueUpdate message model = update message model
+let mutable UniqueUpdate : Message -> Model -> Model * Cmd<Message> =
+    fun (message : Message) (model : Model) ->
+        update message model
+
+
+type public ReloadPackage() =
+    member __.UniqueUpdate = fun message model -> update message model
+
 
 type MyApp() =
     inherit ProgramComponent<Model, Message>()
 
-    let startConnection = Library.startConnection ()
 
     override this.Program =
-        Program.mkSimple (fun _ -> initModel) update view
+        Program.mkProgram (fun _ -> initModel, Cmd.none) update view
+            |> Program.withHotReload
             |> Program.withErrorHandler (fun (msg, exn) -> printfn "Error: %s\n\n%A" msg exn)
 

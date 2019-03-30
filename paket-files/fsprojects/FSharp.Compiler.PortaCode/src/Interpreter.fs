@@ -608,9 +608,6 @@ type EvalContext (?assemblyResolver: (AssemblyName -> Assembly), ?sink: Sink)  =
                     members.[(ty, membDef.Name, RTypes [| |])] <- (membDef, res)
             | DDecl.InitAction (expr, range) -> 
                 ctxt.EvalExpr (env, expr) |> ignore
-        printfn "Members:"
-        for e in members do
-            printfn "%A" e
 
     member __.GetExprDeclResult(ty, memberName) = 
         members.[(ty, memberName, RTypes [| |])]

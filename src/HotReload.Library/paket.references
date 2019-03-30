@@ -2,6 +2,7 @@ FSharp.Core
 FSharp.Compiler.Service
 Dotnet.ProjInfo
 Newtonsoft.Json
+Elmish
 
 File: ProjectCracker.fs Portacode
 File: CodeModel.fs Portacode
