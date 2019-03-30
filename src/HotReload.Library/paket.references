@@ -1,0 +1,11 @@
+FSharp.Core
+FSharp.Compiler.Service
+Dotnet.ProjInfo
+Newtonsoft.Json
+
+File: ProjectCracker.fs Portacode
+File: CodeModel.fs Portacode
+File: Interpreter.fs Portacode
+File: FromCompilerService.fs Portacode
+File: ProcessCommandLine.fs Portacode
+
