@@ -16,6 +16,8 @@ nuget FSharp.Core ~> 4.5
 nuget FSharp.Compiler.Service ~> 25.0
 nuget Dotnet.ProjInfo 0.9
 nuget Newtonsoft.Json
+nuget Microsoft.AspNetCore.App
+nuget Microsoft.AspNetCore.SignalR
 nuget Elmish
 
 

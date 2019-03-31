@@ -89,29 +89,24 @@ let handleUpdate (updater : ProgramUpdater<'msg, 'model>) (files : (string * DFi
             let (def, memberValue) = interpreter.GetExprDeclResult(entity, def.Name)
             printfn "Got member value! %A" memberValue
             let value = Interpreter.getVal memberValue
+            printfn "Got Value!: %A" value
 
             match value with
             | :? MethodLambdaValue as mlv ->
                 let (MethodLambdaValue lambda) = mlv
 
+                let untypedUpdater = lambda ([||], [| |])
+                printfn "pulled value out of lambda! Result: %A" untypedUpdater
+                let genericUpdate = untypedUpdater :?> obj -> obj -> obj * Cmd<obj>
+                printfn "Successfully unboxed: %A" genericUpdate
+
                 updater.SwapUpdate(fun msg model ->
-                    try
-                        let untypedUpdater = lambda ([||], [| |])
+                                  try
+                                    genericUpdate msg model |> unbox<'model * Cmd<'msg> >
+                                  with e ->
+                                      printfn "Update call failed: %A" e
+                                      model, Cmd.none)
 
-                        printfn "Call successful! Result: %A" untypedUpdater
-
-                        let updater = untypedUpdater :?> 'msg -> 'model -> 'model * Cmd<'msg>
-
-                        printfn "Successfully cast: %A" updater
-
-                        updater msg model
-//                        |> unbox<'model * Cmd<'msg>>
-                    with e ->
-                        printfn "Update call failed: %A" e
-                        model, Cmd.none)
-
-
-            printfn "Got Value!: %A" value
         with e ->
             printfn "Got exception: %A" e
 

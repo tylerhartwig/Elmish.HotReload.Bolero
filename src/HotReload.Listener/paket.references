@@ -1,0 +1,15 @@
+FSharp.Core
+FSharp.Compiler.Service
+Dotnet.ProjInfo
+Newtonsoft.Json
+Microsoft.AspNetCore.App
+Microsoft.AspNetCore.SignalR
+Microsoft.AspNetCore.Blazor.Browser
+
+Elmish
+
+File: ProjectCracker.fs Portacode
+File: CodeModel.fs Portacode
+File: Interpreter.fs Portacode
+File: FromCompilerService.fs Portacode
+File: ProcessCommandLine.fs Portacode
