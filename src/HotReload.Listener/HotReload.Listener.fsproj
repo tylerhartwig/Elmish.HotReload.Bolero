@@ -5,26 +5,6 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\paket-files\fsprojects\FSharp.Compiler.PortaCode\src\ProjectCracker.fs">
-      <Paket>True</Paket>
-      <Link>Portacode/ProjectCracker.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\fsprojects\FSharp.Compiler.PortaCode\src\CodeModel.fs">
-      <Paket>True</Paket>
-      <Link>Portacode/CodeModel.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\fsprojects\FSharp.Compiler.PortaCode\src\Interpreter.fs">
-      <Paket>True</Paket>
-      <Link>Portacode/Interpreter.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\fsprojects\FSharp.Compiler.PortaCode\src\FromCompilerService.fs">
-      <Paket>True</Paket>
-      <Link>Portacode/FromCompilerService.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\fsprojects\FSharp.Compiler.PortaCode\src\ProcessCommandLine.fs">
-      <Paket>True</Paket>
-      <Link>Portacode/ProcessCommandLine.fs</Link>
-    </Compile>
     <Compile Include="Main.fs" />
     <Compile Include="ReloadHub.fs" />
     <Compile Include="ListenerController.fs" />
@@ -33,6 +13,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HotReload.Elmish\HotReload.Elmish.fsproj" />
+    <ProjectReference Include="..\HotReload.Library\HotReload.Library.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

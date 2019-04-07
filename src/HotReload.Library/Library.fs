@@ -62,72 +62,77 @@ type ProgramUpdater<'msg,'model>(initial) =
     member __.Update msg model = update msg model
 
 
-let handleUpdate (updater : ProgramUpdater<'msg, 'model>) (files : (string * DFile)[]) =
+type Updater<'a, 'b>(update : 'a -> 'b -> 'b * Cmd<'a>) =
+    member __.Update message model = update message model
+
+let handleUpdate  (files : (string * DFile)[]) =
     printfn "Created interpreter! %A" interpreter
 
     lock interpreter (fun () ->
-//        let toAdd = files |> Array.filter (fun (_, file) -> file.Code <> null)
-//        printfn "Adding: %A" toAdd
         files |> Array.iter (fun (fileName, file) -> interpreter.AddDecls file.Code)
         files |> Array.iter (fun (fileName, file) -> interpreter.EvalDecls (envEmpty, file.Code))
       )
 
-    let getTypeForRef (ref : DEntityRef) =
-        let (DEntityRef name) = ref
-
-        match interpreter.ResolveEntity(ref) with
-        | REntity t -> t
-        | _ -> failwith "Couldn't resolve entity type"
-
-    let mem = tryFindMemberInFiles "UniqueUpdate" files
+    let mem = tryFindMemberInFiles "myHotReload" files
     match mem with
     | Some (def, expr) ->
         try
             printfn "Found member!"
             let entity = interpreter.ResolveEntity(def.EnclosingEntity)
             printfn "Got entity! %A" entity
+
             let (def, memberValue) = interpreter.GetExprDeclResult(entity, def.Name)
             printfn "Got member value! %A" memberValue
-            let value = Interpreter.getVal memberValue
+
+            let value = getVal memberValue
             printfn "Got Value!: %A" value
 
             match value with
-            | :? MethodLambdaValue as mlv ->
-                let (MethodLambdaValue lambda) = mlv
+            | :? ObjectValue as x ->
+                let (ObjectValue v) = x
+                let updater = Map.find "update" v.Value
 
-                let untypedUpdater = lambda ([||], [| |])
-                printfn "pulled value out of lambda! Result: %A" untypedUpdater
-                let genericUpdate = untypedUpdater :?> obj -> obj -> obj * Cmd<obj>
-                printfn "Successfully unboxed: %A" genericUpdate
+                printfn "Found update %A" updater
+                let erasedUpdater = updater :?> obj -> obj -> obj * Cmd<obj>
 
-                updater.SwapUpdate(fun msg model ->
-                                  try
-                                    genericUpdate msg model |> unbox<'model * Cmd<'msg> >
-                                  with e ->
-                                      printfn "Update call failed: %A" e
-                                      model, Cmd.none)
+                printfn "Successfully cast: %A" erasedUpdater
+
+                printfn "Calling update"
+//                    let newSet = erasedUpdater message model
+//                    printfn "Got new value %A" newSet
+                failwithf "Found object value rather than expected type"
+            | :? Updater<obj,obj> as updater ->
+                printfn "Found Updater!"
+                updater
+//                    let model = initModel
+//                    let message = Message.Increment
+
+//                    printfn "calling Updater!"
+//                    let newSet = updater.UniqueUpdate message model
+//                    printfn "Got new values! %A" newSet
 
         with e ->
             printfn "Got exception: %A" e
+            failwithf "Got exception: %A" e
 
     | None ->
         printfn "could not find member"
+        failwith "could not find member"
 
 
-
-let startConnection updater =
-    let hub = createConnection()
-    hub.On("Update", fun json -> deserialize json |> handleUpdate updater) |> ignore
-    connect hub |> Async.Start
-
-
-
-module Program =
-    let withHotReload (program : Program<_, _, _,_>) =
-        let updater = ProgramUpdater(program.update)
-
-        startConnection updater
-
-        { program with
-            update = updater.Update
-        }
+//let startConnection updater =
+//    let hub = createConnection()
+//    hub.On("Update", fun json -> deserialize json |> handleUpdate) |> ignore
+//    connect hub |> Async.Start
+//
+//
+//
+//module Program =
+//    let withHotReload (program : Program<_, _, _,_>) =
+//        let updater = ProgramUpdater(program.update)
+//
+//        startConnection updater
+//
+//        { program with
+//            update = updater.Update
+//        }

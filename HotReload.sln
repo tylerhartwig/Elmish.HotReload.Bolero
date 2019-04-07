@@ -18,6 +18,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HotReload.Listener", "src\H
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HotReload.Cli", "src\HotReload.Cli\HotReload.Cli.fsproj", "{2C4FF83C-B84A-42E3-AC10-C2C0E1A560D8}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HotReload.Elmish", "src\HotReload.Elmish\HotReload.Elmish.fsproj", "{ECE74A21-42CA-4F01-B6A4-25881422F7DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,18 @@ Global
 		{2C4FF83C-B84A-42E3-AC10-C2C0E1A560D8}.Release|x64.Build.0 = Release|Any CPU
 		{2C4FF83C-B84A-42E3-AC10-C2C0E1A560D8}.Release|x86.ActiveCfg = Release|Any CPU
 		{2C4FF83C-B84A-42E3-AC10-C2C0E1A560D8}.Release|x86.Build.0 = Release|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Debug|x64.Build.0 = Debug|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Debug|x86.Build.0 = Debug|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Release|x64.ActiveCfg = Release|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Release|x64.Build.0 = Release|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +98,7 @@ Global
 		{16A8C233-01B2-47AF-8BEA-05D910C88D45} = {87F6C079-CBD7-4866-BDEB-CBDEA9E51D2A}
 		{8D8A55BE-A114-4664-BF2A-6C6B47A6B8E5} = {87F6C079-CBD7-4866-BDEB-CBDEA9E51D2A}
 		{2C4FF83C-B84A-42E3-AC10-C2C0E1A560D8} = {87F6C079-CBD7-4866-BDEB-CBDEA9E51D2A}
+		{ECE74A21-42CA-4F01-B6A4-25881422F7DD} = {87F6C079-CBD7-4866-BDEB-CBDEA9E51D2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8CFD6033-FB8D-48BE-9628-9D83DC023CAB}

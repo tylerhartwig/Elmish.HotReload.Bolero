@@ -9,8 +9,8 @@ type Startup() =
     member __.ConfigureServices(services: IServiceCollection) =
         ()
 
-    member __.Configure(app: IBlazorApplicationBuilder) =
-        app.AddComponent<Main.MyApp>("#main")
+//    member __.Configure(app: IBlazorApplicationBuilder) =
+//        app.AddComponent<Main.MyApp>("#main")
 
 module Program =
 
