@@ -27,10 +27,7 @@ let update (message : Message) (model : Model) =
 
 
 
-let mutable UniqueUpdate : Message -> Model -> Model * Cmd<Message> =
-    fun (message : Message) (model : Model) ->
-        update message model
+type Updater(update) =
+    member __.UniqueUpdate message model = update message model
 
-
-
-
+let myHotReload = Updater(update)

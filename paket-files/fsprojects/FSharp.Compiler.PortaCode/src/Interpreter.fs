@@ -1189,8 +1189,15 @@ type EvalContext (?assemblyResolver: (AssemblyName -> Assembly), ?sink: Sink)  =
                 | :? UnionValue as p -> 
                     let (UnionValue(tag2, _nm, _fields)) = p 
                     tag = tag2
-
-                | null -> 
+//                | p when FSharpType.IsUnion(p.GetType()) ->
+//                    let t = p.GetType()
+//                    let case =
+//                        t |> FSharpType.GetUnionCases
+//                        |> Array.find (fun c -> c.Name = p.ToString())
+//                    let isMatch = tag = case.Tag
+//                    printfn "IS MATCH: %A" isMatch
+//                    isMatch
+                | null ->
                     // TODO: for struct unions this should return the default value
                     raise (NullReferenceException("EvalUnionCaseTest: The union case value was null"))
 

@@ -42,6 +42,34 @@ module Interpreter =
         member __.Update msg model = update msg model
 
 
+
+
+//    let methodLambdaValueToHandler  (def: DMemberDef) (mlv: MethodLambdaValue) =
+//      let resolvedReturnType = resolveType logger def.ReturnType
+//      if resolvedReturnType <> typeof<HttpHandler>
+//      then
+//        logger.LogWarning ("Not of correct final return type. Expected HttpHandler, got {type}", resolvedReturnType.FullName)
+//        Error ("bad return type")
+//      else
+//        let typeParameters =
+//            // TODO: resolve def.GenericParameters
+//            def.GenericParameters
+//        let parameters =
+//          let parameterTypes = def.Parameters |> Array.map (fun t -> match t.Type with | DNamedType (typeRef, types) ->
+//              getTypeForRef logger typeRef | _ -> typeof<unit> )
+//          let parameterObjects = parameterTypes |> Array.map (fun t ->
+//            let v = resolver t
+//            logger.LogInformation("resolve instance of {type}", t.FullName)
+//            v
+//          )
+//          logger.LogInformation ("have {count} parameter instances", parameterObjects.Length)
+//          parameterObjects
+
+//        let (MethodLambdaValue lambda) = mlv
+//        let h = lambda ([||], [||]) :?> obj -> obj -> obj * Cmd<obj>
+//        logger.LogInformation ("handler created")
+//        Ok h
+
     let handleUpdate (updater : ProgramUpdater<'msg, 'model>) (files : (string * DFile)[]) =
         printfn "Created interpreter! %A" interpreter
 
@@ -59,39 +87,74 @@ module Interpreter =
             | REntity t -> t
             | _ -> failwith "Couldn't resolve entity type"
 
-        let mem = tryFindMemberInFiles "UniqueUpdate" files
+        let mem = tryFindMemberInFiles "myHotReload" files
         match mem with
         | Some (def, expr) ->
             try
                 printfn "Found member!"
                 let entity = interpreter.ResolveEntity(def.EnclosingEntity)
                 printfn "Got entity! %A" entity
+//
+//                let meth = interpreter.ResolveMethod(def.Ref)
+//                printfn "Got method! %A" meth
+//
+//                let value =
+//                    match meth with
+//                    | UMethod(def, Value value) ->
+//                        value :?> MethodLambdaValue
+
+
                 let (def, memberValue) = interpreter.GetExprDeclResult(entity, def.Name)
                 printfn "Got member value! %A" memberValue
                 let value = getVal memberValue
 
-                match value with
-                | :? MethodLambdaValue as mlv ->
-                    let (MethodLambdaValue lambda) = mlv
+//                match value with
+//                | :? MethodLambdaValue as mlv ->
+//                let (MethodLambdaValue lambda) = value
 
 //                    updater.SwapUpdate(fun msg model ->
 //                        try
-                    let untypedUpdater = lambda ([||], [| |])
+                match value with
+                | :? ObjectValue as x ->
+                    let (ObjectValue v) = x
+                    let updater = Map.find "update" v.Value
 
-                    printfn "Call successful! Result: %A" untypedUpdater
+                    printfn "Found update %A" updater
+                    let erasedUpdater = updater :?> obj -> obj -> obj * Cmd<obj>
 
-
-                    let genericUpdater = untypedUpdater :?> obj -> obj -> obj * Cmd<obj>
-
-//                    let updater = FSharpValue.MakeFunction(typeof<>, untypedUpdater)
-
-                    printfn "Successfully cast: %A" genericUpdater
-
+                    printfn "Successfully cast: %A" erasedUpdater
                     let model = initModel
                     let message = Message.Increment
 
-                    let newSet = genericUpdater (box message) (box model)
-                    printfn "Got new set! %A" newSet
+                    printfn "Calling update"
+                    let newSet = erasedUpdater message model
+                    printfn "Got new value %A" newSet
+
+                | :? Updater as updater ->
+                    printfn "Found Updater!"
+                    let model = initModel
+                    let message = Message.Increment
+
+                    printfn "calling Updater!"
+                    let newSet = updater.UniqueUpdate message model
+                    printfn "Got new values! %A" newSet
+
+//                let untypedUpdater = lambda ([|  |], [| |])
+//
+//                printfn "Call successful! Result: %A" untypedUpdater
+
+
+//                let genericUpdater = untypedUpdater :?> obj -> obj -> obj * Cmd<obj>
+//
+////                    let updater = FSharpValue.MakeFunction(typeof<>, untypedUpdater)
+//
+//                printfn "Successfully cast: %A" genericUpdater
+//
+//                let model = initModel
+//                let message = Message.Increment
+//
+//                let newSet = genericUpdater message model
+//                printfn "Got new set! %A" newSet
 
 
 //                    updater msg model
