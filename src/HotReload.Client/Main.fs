@@ -16,14 +16,6 @@ let view model dispatch =
 
 
 
-
-
-
-
-
-
-
-
 type MyApp() =
     inherit ProgramComponent<Model, Message>()
 
