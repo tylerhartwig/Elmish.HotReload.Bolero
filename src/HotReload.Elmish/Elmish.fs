@@ -14,9 +14,12 @@ let initModel =
     }
 
 
+
+
 type Message =
     | Increment
     | Decrement
+
 
 
 let update (message : Message) (model : Model) =

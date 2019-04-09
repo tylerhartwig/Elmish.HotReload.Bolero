@@ -88,28 +88,9 @@ let handleUpdate  (files : (string * DFile)[]) =
             printfn "Got Value!: %A" value
 
             match value with
-            | :? ObjectValue as x ->
-                let (ObjectValue v) = x
-                let updater = Map.find "update" v.Value
-
-                printfn "Found update %A" updater
-                let erasedUpdater = updater :?> obj -> obj -> obj * Cmd<obj>
-
-                printfn "Successfully cast: %A" erasedUpdater
-
-                printfn "Calling update"
-//                    let newSet = erasedUpdater message model
-//                    printfn "Got new value %A" newSet
-                failwithf "Found object value rather than expected type"
             | :? Updater<obj,obj> as updater ->
                 printfn "Found Updater!"
                 updater
-//                    let model = initModel
-//                    let message = Message.Increment
-
-//                    printfn "calling Updater!"
-//                    let newSet = updater.UniqueUpdate message model
-//                    printfn "Got new values! %A" newSet
 
         with e ->
             printfn "Got exception: %A" e
