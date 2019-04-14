@@ -1008,6 +1008,11 @@ type EvalContext (?assemblyResolver: (AssemblyName -> Assembly), ?sink: Sink)  =
                 // TODO: for struct records this should return the default value
                 raise (NullReferenceException("EvalFieldGet: The record value was null"))
 
+//            | x when FSharpType.IsRecord(x.GetType()) ->
+//                let (DFieldRef (_, fieldName)) = fieldInfo
+//                let t = x.GetType()
+//                let pInfo = t.GetProperties() |> Array.find (fun p -> p.Name = fieldName)
+//                FSharpValue.GetRecordField(x, pInfo) |> Value
             | _ -> 
                 failwithf "unexpected kind of interpreted value %A while getting field %s"  objOptV nm 
 
@@ -1192,6 +1197,11 @@ type EvalContext (?assemblyResolver: (AssemblyName -> Assembly), ?sink: Sink)  =
                 | null ->
                     // TODO: for struct unions this should return the default value
                     raise (NullReferenceException("EvalUnionCaseTest: The union case value was null"))
+//                | v when FSharpType.IsUnion(v.GetType()) ->
+//                    let t = v.GetType()
+//                    FSharpType.GetUnionCases(t)
+//                    |> Array.find (fun c -> c.Name = v.ToString())
+//                    |> (fun c -> c.Tag = tag)
 
                 | _ -> failwithf "unexpected value '%A' in EvalUnionCaseTest" unionV
         Value (box res)

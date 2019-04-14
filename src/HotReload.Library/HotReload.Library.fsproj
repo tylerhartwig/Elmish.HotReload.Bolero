@@ -24,6 +24,7 @@
       <Paket>True</Paket>
       <Link>Portacode/ProcessCommandLine.fs</Link>
     </Compile>
+    <Compile Include="PortaCodeHelper.fs" />
     <Compile Include="Library.fs" />
   </ItemGroup>
   <ItemGroup>

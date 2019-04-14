@@ -1,7 +1,7 @@
 module HotReload.Client.Main
 
 open HotReload
-open HotReload.Library
+open HotReload.Library.Reload
 open Elmish
 open Bolero
 open Bolero.Html
@@ -22,6 +22,6 @@ type MyApp() =
 
     override this.Program =
         Program.mkProgram (fun _ -> initModel, Cmd.none) update view
-//            |> Program.withHotReload
+            |> Program.withHotReload
             |> Program.withErrorHandler (fun (msg, exn) -> printfn "Error: %s\n\n%A" msg exn)
 

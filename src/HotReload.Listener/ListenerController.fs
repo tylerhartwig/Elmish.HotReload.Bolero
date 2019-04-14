@@ -1,7 +1,8 @@
 namespace HotReload.Listener
 
 
-open HotReload.Library
+open HotReload.Library.Reload
+open HotReload.Library.PortaCodeHelper
 open Microsoft.FSharp.Reflection
 open FSharp.Compiler.PortaCode.CodeModel
 open FSharp.Compiler.PortaCode.Interpreter
@@ -17,6 +18,7 @@ open Newtonsoft.Json
 
 module Interpreter =
     let deserialize str = JsonConvert.DeserializeObject<(string * DFile)[]>(str)
+
 
 
 
@@ -42,6 +44,13 @@ type ListenerController(hub : IHubContext<ReloadHub>) =
         let files = Interpreter.deserialize json
 
         let updater = handleUpdate files
-        let newSet = updater.Update (Decrement) (initModel)
-        printfn "Got new set: %A" newSet
+        getMessageValue files
+
+        let pair = updater.Update (convertToI Increment) (convertToI initModel) |> convertToC<(Model * Cmd<Message>)>
+        let (model, cmd) = pair
+//        let cModel = convertToCRecord typeof<Model> (model :?> RecordValue) |> unbox<Model>
+
+        printfn "Got Pair: %A" pair
+        printfn "Got new model: %A" model
+        printfn "Got new command: %A" cmd
 
