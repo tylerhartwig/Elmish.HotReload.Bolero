@@ -25,7 +25,6 @@ type Message =
 
 
 
-
 let update (message : Message) (model : Model) =
     match message with
     | Increment ->
@@ -33,4 +32,4 @@ let update (message : Message) (model : Model) =
     | Decrement ->
         { model with value = model.value - 1 }, Cmd.none
 
-let myHotReload = Updater(update)
+

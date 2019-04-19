@@ -15,7 +15,6 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HotReload.Elmish\HotReload.Elmish.fsproj" />
     <ProjectReference Include="..\HotReload.Library\HotReload.Library.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

@@ -20,9 +20,15 @@ nuget Microsoft.AspNetCore.App
 nuget Microsoft.AspNetCore.SignalR
 nuget Elmish
 
+nuget Blazor.Extensions.Logging
+
+nuget Microsoft.Extensions.DependencyModel
+nuget System.Runtime.Loader
 
 nuget FSharp.Json
 
+nuget BlazorSignalR
+nuget Microsoft.AspNetCore.SignalR.Client
 
 nuget Microsoft.AspNetCore.Blazor.Browser ~> 0.7.0
 nuget Microsoft.AspNetCore.Blazor.Build ~> 0.7.0

@@ -1,12 +1,6 @@
-FSharp.Core
-FSharp.Compiler.Service
-Dotnet.ProjInfo
-Newtonsoft.Json
 Elmish
-
-File: ProjectCracker.fs Portacode
-File: CodeModel.fs Portacode
-File: Interpreter.fs Portacode
-File: FromCompilerService.fs Portacode
-File: ProcessCommandLine.fs Portacode
+Microsoft.Extensions.DependencyModel
+System.Runtime.Loader
+BlazorSignalR
+Microsoft.AspNetCore.SignalR.Client
 
