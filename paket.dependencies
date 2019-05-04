@@ -37,3 +37,5 @@ nuget xunit.runner.visualstudio
 
 # Force <2.2 to prevent this issue: https://github.com/aspnet/Razor/issues/2553
 nuget Microsoft.AspNetCore.Razor.Design ~> 2.1.0
+
+nuget Elmish.HotReload

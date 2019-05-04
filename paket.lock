@@ -29,6 +29,11 @@ NUGET
     Elmish (2.0.3)
       FSharp.Core (>= 4.5.2) - restriction: || (>= net461) (>= netstandard1.6)
       NETStandard.Library (>= 1.6.1) - restriction: && (< net461) (>= netstandard1.6) (< netstandard2.0)
+    Elmish.HotReload (0.1)
+      Elmish
+      Microsoft.Extensions.DependencyModel
+      Microsoft.Extensions.Logging (>= 2.1.1)
+      System.Runtime.Loader
     Fake.Core.Context (5.13) - restriction: || (>= net462) (>= netstandard2.0)
       FSharp.Core (>= 4.3.4) - restriction: || (>= net46) (>= netstandard1.6)
     Fake.Core.Environment (5.13) - restriction: || (>= net462) (>= netstandard2.0)
@@ -936,7 +941,7 @@ NUGET
       Microsoft.Extensions.Logging.Abstractions (>= 2.1.1) - restriction: >= netstandard2.0
       Microsoft.Extensions.Options (>= 2.1.1) - restriction: >= netstandard2.0
     Microsoft.Extensions.Localization.Abstractions (2.1.1) - restriction: >= netcoreapp2.1
-    Microsoft.Extensions.Logging (2.1.1) - restriction: >= netstandard2.0
+    Microsoft.Extensions.Logging (2.1.1)
       Microsoft.Extensions.Configuration.Binder (>= 2.1.1) - restriction: >= netstandard2.0
       Microsoft.Extensions.DependencyInjection.Abstractions (>= 2.1.1) - restriction: >= netstandard2.0
       Microsoft.Extensions.Logging.Abstractions (>= 2.1.1) - restriction: >= netstandard2.0

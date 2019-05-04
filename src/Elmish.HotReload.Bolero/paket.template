@@ -1,0 +1,9 @@
+type project
+licenseUrl http://opensource.org/licenses/MIT
+
+version 0.1.0
+owners Tyler Hartwig
+authors Tyler Hartwig
+tags elmish reload hotswap bolero blazor
+description
+    This package contains helper methods for setting up Elmish Hot Reloading for Bolero.

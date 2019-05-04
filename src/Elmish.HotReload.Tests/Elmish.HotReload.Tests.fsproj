@@ -4,7 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ConfigTests.fs" />
+    <Compile Include="ResolveTests.fs" />
+    <Compile Include="MorphTests.fs" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>

@@ -7,10 +7,8 @@
     <Compile Include="Library.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Elmish.HotReload\Elmish.HotReload.fsproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="paket.references" />
+    <Content Include="paket.template" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

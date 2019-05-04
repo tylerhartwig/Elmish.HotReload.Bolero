@@ -4,11 +4,17 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ReloadContext.fs" />
+    <Compile Include="Helpers.fs" />
+    <Compile Include="Morph.fs" />
+    <Compile Include="Resolve.fs" />
+    <Compile Include="Types.fs" />
     <Compile Include="Core.fs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="paket.template" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

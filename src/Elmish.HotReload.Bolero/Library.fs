@@ -2,7 +2,10 @@
 
 open BlazorSignalR
 open Elmish
+open Elmish.HotReload
 open Elmish.HotReload.Core
+open Elmish.HotReload.Core
+open Elmish.HotReload.Types
 open Microsoft.AspNetCore.SignalR.Client
 open Microsoft.Extensions.Logging
 open Microsoft.FSharp.Quotations
@@ -53,8 +56,8 @@ module Program =
 
         let updater = ProgramUpdater(log, program.init, program.update, program.view)
 
-        let viewResolverInfo = resolveView viewExpr
-        let updateResolverInfo = resolveUpdate updateExpr
+        let viewResolverInfo = Resolve.resolveView viewExpr
+        let updateResolverInfo = Resolve.resolveUpdate updateExpr
 
         let reload () = reloadPipeline log updater viewResolverInfo updateResolverInfo
 

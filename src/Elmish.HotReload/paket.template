@@ -1,0 +1,9 @@
+type project
+licenseUrl http://opensource.org/licenses/MIT
+
+version 0.1.0
+owners Tyler Hartwig
+authors Tyler Hartwig
+tags elmish reload hotswap
+description
+    This package contains types and methods for creating a hot-swappable Elmish program, which each pipeline can be updated independently.
