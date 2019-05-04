@@ -184,7 +184,7 @@ let getExtraInfo targetPath props =
 
 let (|MsbuildOk|_|) x =
     match x with
-#if NETSTANDARD2_0 || NETCOREAPP2_1
+#if NETSTANDARD2_0
     | Ok x -> Some x
     | Error _ -> None
 #else
@@ -194,7 +194,7 @@ let (|MsbuildOk|_|) x =
 
 let (|MsbuildError|_|) x =
     match x with
-#if NETSTANDARD2_0 || NETCOREAPP2_1
+#if NETSTANDARD2_0
     | Ok _ -> None
     | Error x -> Some x
 #else

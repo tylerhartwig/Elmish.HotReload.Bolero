@@ -2,12 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>HotReload.Elmish</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Elmish.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\HotReload.Library\HotReload.Library.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />

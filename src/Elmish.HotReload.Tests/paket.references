@@ -1,0 +1,4 @@
+FsCheck.Xunit
+xunit
+xunit.runner.console
+xunit.runner.visualstudio

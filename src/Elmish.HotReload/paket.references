@@ -1,6 +1,4 @@
 Elmish
 Microsoft.Extensions.DependencyModel
+Microsoft.Extensions.Logging
 System.Runtime.Loader
-BlazorSignalR
-Microsoft.AspNetCore.SignalR.Client
-

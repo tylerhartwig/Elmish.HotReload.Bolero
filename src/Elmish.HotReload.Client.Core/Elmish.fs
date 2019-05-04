@@ -1,7 +1,6 @@
 ﻿module HotReload.Elmish
 
 open Elmish
-open HotReload.Library.Reload
 
 type Model =
     {
@@ -14,15 +13,9 @@ let initModel =
     }
 
 
-
-
 type Message =
     | Increment
     | Decrement
-
-
-
-
 
 
 let update (message : Message) (model : Model) =

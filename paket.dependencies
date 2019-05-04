@@ -1,20 +1,8 @@
-version 5.193.0
 source https://api.nuget.org/v3/index.json
 source https://ci.appveyor.com/nuget/bolero
 storage: none
-#framework: netstandard2.0
 
-
-# Portacode
-github fsprojects/FSharp.Compiler.PortaCode:0c6686bcc518246d879bb3d0e3cd4cdbbc72d5ad src/ProjectCracker.fs
-github fsprojects/FSharp.Compiler.PortaCode:0c6686bcc518246d879bb3d0e3cd4cdbbc72d5ad src/CodeModel.fs
-github fsprojects/FSharp.Compiler.PortaCode:0c6686bcc518246d879bb3d0e3cd4cdbbc72d5ad src/Interpreter.fs
-github fsprojects/FSharp.Compiler.PortaCode:0c6686bcc518246d879bb3d0e3cd4cdbbc72d5ad src/FromCompilerService.fs
-github fsprojects/FSharp.Compiler.PortaCode:0c6686bcc518246d879bb3d0e3cd4cdbbc72d5ad src/ProcessCommandLine.fs
-
-nuget FSharp.Core ~> 4.5
-nuget FSharp.Compiler.Service ~> 25.0
-nuget Dotnet.ProjInfo 0.9
+nuget FSharp.Core
 nuget Newtonsoft.Json
 nuget Microsoft.AspNetCore.App
 nuget Microsoft.AspNetCore.SignalR
@@ -28,6 +16,7 @@ nuget System.Runtime.Loader
 nuget FSharp.Json
 
 nuget BlazorSignalR
+nuget Microsoft.AspNetCore.Server.Kestrel
 nuget Microsoft.AspNetCore.SignalR.Client
 
 nuget Microsoft.AspNetCore.Blazor.Browser ~> 0.7.0
@@ -35,6 +24,15 @@ nuget Microsoft.AspNetCore.Blazor.Build ~> 0.7.0
 clitool Microsoft.AspNetCore.Blazor.Cli ~> 0.7.0
 nuget Bolero 0.3.131
 nuget Bolero.Build 0.3.131
+
+nuget Argu
+nuget FcsWatch.Core
+nuget FcsWatch.Binary
+
+nuget FsCheck.Xunit
+nuget xunit
+nuget xunit.runner.console
+nuget xunit.runner.visualstudio
 
 
 # Force <2.2 to prevent this issue: https://github.com/aspnet/Razor/issues/2553

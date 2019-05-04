@@ -1,6 +1,9 @@
+Argu
+FcsWatch.Binary
+FcsWatch.Core
 FSharp.Core
-FSharp.Compiler.Service
 Newtonsoft.Json
 Microsoft.AspNetCore.App
+Microsoft.AspNetCore.Server.Kestrel
 Microsoft.AspNetCore.SignalR
 

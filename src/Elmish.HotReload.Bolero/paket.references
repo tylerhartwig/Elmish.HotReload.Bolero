@@ -1,0 +1,3 @@
+BlazorSignalR
+Microsoft.AspNetCore.SignalR.Client
+Microsoft.Extensions.Logging

@@ -330,12 +330,6 @@ let ProcessCommandLine (argv: string[]) =
 
         emitInfoFile sourceFile lines
 
-    let loadSafe name =
-        try
-            System.Reflection.Assembly.LoadFrom(name)
-        with e ->
-            null
-
     /// Evaluate the declarations using the interpreter
     let evaluateDecls fileContents = 
         let assemblyTable = 
@@ -343,11 +337,10 @@ let ProcessCommandLine (argv: string[]) =
                         if r.StartsWith("-r:") && not (r.Contains(".NETFramework")) then 
                             let assemName = r.[3..]
                             printfn "Script: pre-loading referenced assembly %s " assemName
-
-                            match loadSafe assemName with
-                            | null ->
+                            match System.Reflection.Assembly.LoadFrom(assemName) with 
+                            | null -> 
                                 printfn "Script: failed to pre-load referenced assembly %s " assemName
-                            | asm ->
+                            | asm -> 
                                 let name = asm.GetName()
                                 yield (name.Name, asm) |]
 
