@@ -34,8 +34,8 @@ type MyApp () =
 
 ####Run with HotReloading
 
-1. Install the `bolerolive` tool with the following command `dotnet install -g bolero-live`
-2. Run `bolerolive` from your Bolero project directory. 
+1. Install the `bolero-live` tool with the following command `dotnet install -g bolero-live`
+2. Run `bolero-live` from your Bolero project directory. 
 
 ### How does this work?
 
