@@ -38,6 +38,14 @@ let processListenerBaseUrl (args : ParseResults<Arguments>) =
         | Some p -> p
         | None -> defaultPort
 
+    // hack to get current working dir
+    let defaultBinaryConfig = BinaryConfig.DefaultValue
+    let workingDir = args.GetResult(Working_Dir, defaultBinaryConfig.WorkingDir)
+    let projFile = args.GetResult(Project_File, Path.Combine(workingDir, "file.fsproj"))
+    let projDir = Path.GetDirectoryName(projFile)
+
+    ListenerController.workingDir <- projDir
+
     sprintf "http://localhost:%i" port
 
 type ProcessResult =
@@ -49,7 +57,7 @@ let processListenerArgs usage (args : ParseResults<Arguments>) =
         let baseUrl = processListenerBaseUrl args
 
         {
-            WebArgs = [|  |]
+            WebArgs = [| |]
             BaseUrl = baseUrl
         }
     with ex ->

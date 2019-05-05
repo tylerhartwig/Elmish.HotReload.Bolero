@@ -54,6 +54,11 @@ module Program =
         (updateExpr : Expr<'msg -> 'model -> 'model * Cmd<'msg>>)
         (program : Program<'arg, 'model, 'msg, 'view>) =
 
+        let log =
+            match log with
+            | Some l -> l
+            | None -> (new LoggerFactory()).CreateLogger() :> ILogger
+
         let updater = ProgramUpdater(log, program.init, program.update, program.view)
 
         let viewResolverInfo = Resolve.resolveView viewExpr

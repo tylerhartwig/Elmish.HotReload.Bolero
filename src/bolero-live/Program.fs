@@ -5,8 +5,6 @@ open Elmish.HotReload.Bolero.Cli.CommandParser
 open FcsWatch.Binary
 open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Hosting
-open System
-open System.Net
 
 module Program =
 

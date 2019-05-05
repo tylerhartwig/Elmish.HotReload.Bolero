@@ -14,13 +14,18 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Elmish.HotReload.Client.Bol
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Elmish.HotReload.Client.Core", "src\Elmish.HotReload.Client.Core\Elmish.HotReload.Client.Core.fsproj", "{ECE74A21-42CA-4F01-B6A4-25881422F7DD}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "bolero-reload", "src\bolero-reload\bolero-reload.fsproj", "{64CC7C62-E373-488E-98FF-29BB63D1BC88}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "bolero-live", "src\bolero-live\bolero-live.fsproj", "{64CC7C62-E373-488E-98FF-29BB63D1BC88}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Elmish.HotReload", "src\Elmish.HotReload\Elmish.HotReload.fsproj", "{360EB73C-D0E1-4119-90BD-181A9B0F9089}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Elmish.HotReload.Bolero", "src\Elmish.HotReload.Bolero\Elmish.HotReload.Bolero.fsproj", "{7AF1AE87-61D6-437F-A012-2242A51CFAF8}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Elmish.HotReload.Tests", "src\Elmish.HotReload.Tests\Elmish.HotReload.Tests.fsproj", "{59BDD3C5-457E-424E-8E6D-B62465E7CB42}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project Files", "Project Files", "{73ADE4B8-78F7-4426-8B25-1713978613FC}"
+ProjectSection(SolutionItems) = preProject
+	README.md = README.md
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

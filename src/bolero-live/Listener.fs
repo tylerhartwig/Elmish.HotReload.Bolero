@@ -17,9 +17,6 @@ type Startup () =
         services.AddSignalR() |> ignore
 
     member this.Configure(app : IApplicationBuilder, env : IHostingEnvironment) =
-        if env.IsDevelopment() then
-            app.UseDeveloperExceptionPage() |> ignore
-
         app.UseCors(fun builder ->
             builder.WithOrigins("*")
                 .AllowAnyHeader()

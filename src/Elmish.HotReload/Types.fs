@@ -67,6 +67,7 @@ type ProgramUpdater<'arg, 'msg, 'model, 'view>(log : ILogger, initialModel, init
         log.LogDebug <| sprintf "Calling view with model: %A" model
         match reloadPackage.View with
         | None ->
+            log.LogDebug "View is initial"
             let morphedModel =
                 if model.GetType() <> typeof<'model> then
                     Morph.morphAny typeof<'model> model
@@ -80,6 +81,7 @@ type ProgramUpdater<'arg, 'msg, 'model, 'view>(log : ILogger, initialModel, init
             let unboxedDispatch = (unbox<'msg -> unit> dispatch)
             initialView unboxedModel unboxedDispatch
         | Some view ->
+            log.LogDebug "View is reloaded"
             let v = view model dispatch
             log.LogDebug <| sprintf "Made new view: %A" v
             v :?> 'view
@@ -95,8 +97,13 @@ type ProgramUpdater<'arg, 'msg, 'model, 'view>(log : ILogger, initialModel, init
         else
             match reloadPackage.Update with
             | None ->
+                let morphedModel =
+                    if model.GetType() <> typeof<'model> then
+                        Morph.morphAny typeof<'model> model
+                    else model
+
                 log.LogDebug "Calling initail update function"
-                let (m : 'model, c : Cmd<'msg>) = initialUpdate (unbox<'msg> msg) (unbox<'model> model)
+                let (m : 'model, c : Cmd<'msg>) = initialUpdate (unbox<'msg> msg) (unbox<'model> morphedModel)
                 (box { wrappedModel with model = m }, Cmd.map box c)
             | Some update ->
                 log.LogDebug "Calling hot-reload update function"

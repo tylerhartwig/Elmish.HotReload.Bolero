@@ -1,0 +1,12 @@
+Argu
+Dotnet.ProjInfo
+FcsWatch.Binary
+FcsWatch.Core
+FSharp.Core
+Microsoft.AspNetCore
+Microsoft.AspNetCore.Hosting
+Microsoft.AspNetCore.Http
+Microsoft.AspNetCore.Mvc
+Microsoft.AspNetCore.SignalR
+
+Newtonsoft.Json

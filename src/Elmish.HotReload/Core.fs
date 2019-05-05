@@ -36,29 +36,36 @@ let reloadPipeline (log : ILogger) (updater : ProgramUpdater<'arg,'msg,'model,'v
         | None ->
             log.LogDebug "Did not find member info"
             None
-        | Some (memInfo, _) ->
+        | Some (memInfo, deps) ->
             log.LogDebug "Found view member info"
             match memInfo with
             | :? MethodInfo as methodInfo ->
                 log.LogDebug "Member info is method info, resolving"
                 Some (fun m (d : obj -> unit) ->
+                    let paramTypes = methodInfo.GetParameters()
+                    let [| modelParam; dispatchParam |] = paramTypes.[ (paramTypes.Length - 2) .. ]
 
+                    let morphedModel =
+                        if m.GetType() <> modelParam.ParameterType then
+                            Morph.morphAny (modelParam.ParameterType) m
+                         else m
 
                     let d' = FSharpValue.MakeFunction(typeof<'msg -> unit>, fun m -> d m |> box)
-                    methodInfo.Invoke(null, [| m; d' |]))
+                    methodInfo.Invoke(null, deps @ [ morphedModel; d' ] |> List.toArray))
 
     let update =
         match updateMemInfo with
         | None ->
             log.LogDebug "Did not find update info"
             None
-        | Some (memInfo, _) ->
+        | Some (memInfo, deps) ->
             log.LogDebug "Found update member info"
             match memInfo with
             | :? MethodInfo as methodInfo ->
                 log.LogDebug <| sprintf "Update member info is method info (%A), resolving" methodInfo
                 Some (fun msg model ->
-                    let [| msgParam; modelParam |] = methodInfo.GetParameters()
+                    let paramTypes = methodInfo.GetParameters()
+                    let [| msgParam; modelParam |] = paramTypes.[ (paramTypes.Length - 2) .. ]
 
                     let mInfo = methodInfo.MakeGenericMethod(msgParam.ParameterType)
                     log.LogDebug <| sprintf "Specific Update method: %A" mInfo
@@ -73,7 +80,7 @@ let reloadPipeline (log : ILogger) (updater : ProgramUpdater<'arg,'msg,'model,'v
                             Morph.morphAny (modelParam.ParameterType)  model
                         else model
 
-                    let result = mInfo.Invoke(null, [| morphedMsg; morphedModel |])
+                    let result = mInfo.Invoke(null, deps @ [ morphedMsg; morphedModel ] |> List.toArray)
                     log.LogDebug <| sprintf "Update result is: %A" result
                     let [| t1; t2 |] = FSharpValue.GetTupleFields result
                     (t1, Cmd.none) )

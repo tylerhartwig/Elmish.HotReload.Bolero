@@ -1,9 +1,0 @@
-Argu
-FcsWatch.Binary
-FcsWatch.Core
-FSharp.Core
-Newtonsoft.Json
-Microsoft.AspNetCore.App
-Microsoft.AspNetCore.Server.Kestrel
-Microsoft.AspNetCore.SignalR
-

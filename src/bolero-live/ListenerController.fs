@@ -19,6 +19,8 @@ type Updates =
 type ListenerController (hub : IHubContext<ReloadHub>) =
     inherit ControllerBase ()
 
+    static member val workingDir : string = "" with get, set
+
     [<HttpPut("update")>]
     member this.Update() =
         let reader = new StreamReader(this.Request.Body)
@@ -31,7 +33,7 @@ type ListenerController (hub : IHubContext<ReloadHub>) =
             let file = dllUpdates |> List.head
             let fileContents = File.ReadAllBytes(file)
 
-            let tmpPath = "/Users/tylerhartwig/experiments/HotReload/src/HotReload.Client/bin/Debug/netstandard2.0/dist/_framework/_bin"
+            let tmpPath = Path.Combine(ListenerController.workingDir, "bin/Debug/netstandard2.0/dist/_framework/_bin")
             File.WriteAllBytes(Path.Combine(tmpPath, fileName), fileContents)
 
             hub.Clients.All.SendAsync(method = "Update", arg1 = (fileName, fileContents))

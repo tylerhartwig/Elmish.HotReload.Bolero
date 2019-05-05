@@ -4,7 +4,10 @@ storage: none
 
 nuget FSharp.Core
 nuget Newtonsoft.Json
-nuget Microsoft.AspNetCore.App
+nuget Microsoft.AspNetCore
+nuget Microsoft.AspNetCore.Hosting
+nuget Microsoft.AspNetCore.Http
+nuget Microsoft.AspNetCore.Mvc
 nuget Microsoft.AspNetCore.SignalR
 nuget Elmish
 
@@ -39,3 +42,5 @@ nuget xunit.runner.visualstudio
 nuget Microsoft.AspNetCore.Razor.Design ~> 2.1.0
 
 nuget Elmish.HotReload
+
+nuget Dotnet.ProjInfo

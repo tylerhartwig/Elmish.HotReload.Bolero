@@ -1,4 +1,4 @@
 BlazorSignalR
-Elmish.HotReload
+#Elmish.HotReload
 Microsoft.AspNetCore.SignalR.Client
 Microsoft.Extensions.Logging

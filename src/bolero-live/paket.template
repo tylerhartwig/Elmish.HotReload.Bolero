@@ -1,0 +1,9 @@
+type project
+licenseUrl http://opensource.org/licenses/MIT
+
+version 0.1.0
+owners Tyler Hartwig
+authors Tyler Hartwig
+tags elmish reload hotswap bolero cli live
+description
+    This package contains a cli tool used to communicate hot-reload events in partnership with Elmish.HotReload.Bolero
