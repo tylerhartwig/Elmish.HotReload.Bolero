@@ -6,7 +6,7 @@ refreshed.
 
 This library is brand new, please open issues for any problems you encounter or suggestions you may have. 
 
-####Enable HotReload 
+#### Enable HotReload 
 
 Enabling Bolero Reload comes in 2 parts. Elmish.HotReload relies on the Elmish model and message types to be `obj` in 
 order to hot-swap them individually at runtime.
@@ -32,7 +32,7 @@ type MyApp () =
 
 ```
 
-####Run with HotReloading
+#### Run with HotReloading
 
 1. Install the `bolero-live` tool with the following command `dotnet install -g bolero-live`
 2. Run `bolero-live` from your Bolero project directory. 
