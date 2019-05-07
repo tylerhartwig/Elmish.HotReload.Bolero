@@ -121,3 +121,25 @@ let ``can resolve update with tuple model`` () =
 
         Assert.Equal(42, val1)
         Assert.Equal(21, val2)
+
+
+let viewWithFieldDepedency (provider : ValueProvider) (model : int) (dispatch : obj -> unit) : int * Cmd<obj> =
+    (provider.GetValue()), Cmd.none
+
+type TypeHoldingDependency () =
+    let valueProvider = constValueProvider 42
+
+    member __.getViewExpr () =
+        <@ viewWithFieldDepedency valueProvider @>
+
+let depProvider = TypeHoldingDependency ()
+
+[<Fact>]
+let ``can resolve view with field depedency`` () =
+    let viewExpr = depProvider.getViewExpr ()
+    let viewInfo = Resolve.resolveView viewExpr
+    let viewFun = Resolve.findFun viewInfo (Seq.singleton typeof<TestModel>.Assembly)
+    match viewFun with
+    | Some (viewFun, deps) ->
+        Assert.Equal(1, deps.Length)
+
