@@ -63,13 +63,11 @@ let rec findFun resolveInfo (assemblies : seq<Assembly>) =
         |> Seq.tryPick (fun a -> a.DefinedTypes |> Seq.tryFind (fun t -> t.FullName = moduleName))
         |> Option.map (fun t -> t.DeclaredMembers |> Seq.find (fun m -> m.Name = valueName), deps)
 
-
 let makeFunFromMemberInfo (memInfo : MemberInfo) deps self =
     match memInfo with
     | :? MethodInfo as methInfo ->
         fun arg1 arg2 ->
             methInfo.Invoke(self, deps @ [ arg1; arg2 ] |> List.toArray)
-
 
 let rec makeFun resolveInfo (assemblies : seq<Assembly>) =
     match resolveInfo with
