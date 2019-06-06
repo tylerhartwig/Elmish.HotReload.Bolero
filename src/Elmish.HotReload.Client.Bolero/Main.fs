@@ -15,9 +15,9 @@ open System.Runtime.Loader
 
 let view model dispatch =
     concat [
-        button [on.click (fun _ -> dispatch Decrement)] [text "-"]
+        button [on.click (fun _ -> dispatch Decrement)] [text "+"]
         span [] [textf " %i " model.value]
-        button [on.click (fun _ -> dispatch Increment)] [text "+"]
+        button [on.click (fun _ -> dispatch Increment)] [text "-"]
     ]
 
 
@@ -25,6 +25,7 @@ let createLogger context () =
     (new LoggerFactory())
         .AddBrowserConsole(LogLevel.Trace)
         .CreateLogger(context)
+
 
 
 

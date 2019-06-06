@@ -18,7 +18,13 @@
     <ProjectReference Include="..\Elmish.HotReload.Client.Core\Elmish.HotReload.Client.Core.fsproj" />
   </ItemGroup>
   <ItemGroup>
+    <Watch Include="**\*.html" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="paket.references" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="test.html" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

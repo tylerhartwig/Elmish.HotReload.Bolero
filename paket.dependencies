@@ -4,29 +4,29 @@ storage: none
 
 nuget FSharp.Core
 nuget Newtonsoft.Json
-nuget Microsoft.AspNetCore
-nuget Microsoft.AspNetCore.Hosting
-nuget Microsoft.AspNetCore.Http
-nuget Microsoft.AspNetCore.Mvc
-nuget Microsoft.AspNetCore.SignalR
+nuget Microsoft.AspNetCore prerelease
+nuget Microsoft.AspNetCore.Hosting prerelease
+nuget Microsoft.AspNetCore.Http prerelease
+nuget Microsoft.AspNetCore.Mvc prerelease
+nuget Microsoft.AspNetCore.SignalR prerelease
 nuget Elmish
 
-nuget Blazor.Extensions.Logging
+nuget Blazor.Extensions.Logging prerelease
 
-nuget Microsoft.Extensions.DependencyModel
+nuget Microsoft.Extensions.DependencyModel prerelease
 nuget System.Runtime.Loader
 
 nuget FSharp.Json
 
-nuget BlazorSignalR
-nuget Microsoft.AspNetCore.Server.Kestrel
-nuget Microsoft.AspNetCore.SignalR.Client
+nuget BlazorSignalR prerelease
+nuget Microsoft.AspNetCore.Server.Kestrel prerelease
+nuget Microsoft.AspNetCore.SignalR.Client prerelease
 
-nuget Microsoft.AspNetCore.Blazor.Browser ~> 0.7.0
-nuget Microsoft.AspNetCore.Blazor.Build ~> 0.7.0
-clitool Microsoft.AspNetCore.Blazor.Cli ~> 0.7.0
-nuget Bolero 0.3.131
-nuget Bolero.Build 0.3.131
+#nuget Microsoft.AspNetCore.Blazor.Browser
+nuget Microsoft.AspNetCore.Blazor.Build prerelease
+clitool Microsoft.AspNetCore.Blazor.Cli prerelease
+nuget Bolero prerelease
+nuget Bolero.Build prerelease
 
 nuget Argu
 nuget FcsWatch.Core
@@ -39,8 +39,17 @@ nuget xunit.runner.visualstudio
 
 
 # Force <2.2 to prevent this issue: https://github.com/aspnet/Razor/issues/2553
-nuget Microsoft.AspNetCore.Razor.Design ~> 2.1.0
+#nuget Microsoft.AspNetCore.Razor.Design ~> 2.1.0
 
-nuget Elmish.HotReload
+#nuget Elmish.HotReload
 
 nuget Dotnet.ProjInfo
+
+
+# Temporary Prerelease
+nuget Microsoft.AspNetCore.Http.Features prerelease
+nuget Microsoft.Extensions.Configuration prerelease
+nuget Microsoft.Extensions.FileProviders.Physical prerelease
+nuget Microsoft.Extensions.Logging.Console prerelease
+nuget Microsoft.Extensions.Options prerelease
+nuget System.Runtime.CompilerServices.Unsafe prerelease

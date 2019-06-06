@@ -12,15 +12,6 @@ type ResolverInfo =
     | StaticProperty of moduleName : string * valueName : string * deps : obj list
     | ObjectProperty of typeName : string * self : obj * valueName : string * deps : obj list
 
-//let supportedViewSchemes = """
-//The following is supported:
-//let bound functions in modules with the shape: 'model -> ('msg -> unit) -> 'view
-//"""
-//
-//let supportedUpdateSchemes = """
-//The following is supported:
-//let bound functions in modules with the shape: 'msg -> 'model -> 'model * Cmd<'msg>
-//"""
 
 let makeFailMessage f = sprintf "Failed to resolve %A\n" f
 

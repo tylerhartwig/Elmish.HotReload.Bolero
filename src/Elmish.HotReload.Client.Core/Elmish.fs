@@ -18,11 +18,12 @@ type Message =
     | Decrement
 
 
+
 let update (message : Message) (model : Model) =
     match message with
     | Increment ->
-        { model with value = model.value + 1 }, Cmd.none
-    | Decrement ->
         { model with value = model.value - 1 }, Cmd.none
+    | Decrement ->
+        { model with value = model.value + 1 }, Cmd.none
 
 
