@@ -1,31 +1,32 @@
 namespace Elmish.HotReload.Bolero.Cli
 
 open Elmish.HotReload.Bolero.Cli
+open Microsoft.AspNetCore.SignalR
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 
-
-
-
-
 type Startup () =
     member this.ConfigureServices(services : IServiceCollection) =
-        services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1) |> ignore
+        services.AddControllers() |> ignore
         services.AddSignalR() |> ignore
 
-    member this.Configure(app : IApplicationBuilder, env : IHostingEnvironment) =
+    member this.Configure(app : IApplicationBuilder, env : IHostEnvironment) =
         app.UseCors(fun builder ->
             builder.WithOrigins("*")
                 .AllowAnyHeader()
-                .WithMethods("GET", "POST")
-                .AllowCredentials() |> ignore) |> ignore
+                .WithMethods("GET", "POST") |> ignore) |> ignore
 
-        app.UseSignalR(fun route -> route.MapHub<ReloadHub>(new PathString("/reloadhub"))) |> ignore
+        app.UseRouting() |> ignore
 
-        app.UseMvcWithDefaultRoute() |> ignore
+        app.UseEndpoints(fun builder ->
+            builder.MapHub<ReloadHub>("/ReloadHub") |> ignore
 
-
-
+            builder.MapPut("/update", fun context ->
+                let hub = context.RequestServices.GetService<IHubContext<ReloadHub>>()
+                let controller = ListenerController(hub)
+                controller.Update(context.Request)
+                ) |> ignore
+        ) |> ignore

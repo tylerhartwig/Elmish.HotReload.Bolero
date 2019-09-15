@@ -1,6 +1,8 @@
 FSharp.Core
 Microsoft.AspNetCore.Blazor.Build
-Microsoft.AspNetCore.Blazor.Cli
+Microsoft.AspNetCore.Blazor.DevServer
+Microsoft.Extensions.Logging
+Blazor.Extensions.Logging
+
 Bolero
 Bolero.Build
-Blazor.Extensions.Logging

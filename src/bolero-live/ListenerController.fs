@@ -1,41 +1,48 @@
 namespace Elmish.HotReload.Bolero.Cli
 
+open Microsoft.AspNetCore.Http
 open Newtonsoft.Json
-open Microsoft.AspNetCore.Mvc
 open Microsoft.AspNetCore.SignalR
 open System.IO
 open System.Threading.Tasks
+open Microsoft.Extensions.Logging
 
 
+type ReloadHub (log : ILogger<ReloadHub>) = 
+    inherit Hub()
 
-type ReloadHub () = inherit Hub()
+    override this.OnConnectedAsync() =
+        log.LogError "Client Connected!"
+        Task.FromResult(true) :> Task
 
 type Updates =
     | Run
     | Rerun of string list
 
-[<Route("/")>]
-[<ApiController>]
 type ListenerController (hub : IHubContext<ReloadHub>) =
-    inherit ControllerBase ()
 
     static member val workingDir : string = "" with get, set
 
-    [<HttpPut("update")>]
-    member this.Update() =
-        let reader = new StreamReader(this.Request.Body)
-        let json = reader.ReadToEnd ()
-        let update = JsonConvert.DeserializeObject<Updates> json
-        match update with
-        | Rerun dllUpdates ->
-            let fileList = dllUpdates |> List.map (Path.GetFileName)
-            let fileName = fileList |> List.head
-            let file = dllUpdates |> List.head
-            let fileContents = File.ReadAllBytes(file)
+    member this.Update(request : HttpRequest) =
+        printfn "Starting Update"
+        async {
+            let reader = new StreamReader(request.Body)
+            let! json = reader.ReadToEndAsync () |> Async.AwaitTask
+            printfn "Read Json"
+            let update = JsonConvert.DeserializeObject<Updates> json
+            match update with
+            | Rerun dllUpdates ->
+                let fileList = dllUpdates |> List.map (Path.GetFileName)
+                let fileName = fileList |> List.head
+                let file = dllUpdates |> List.head
+                let fileContents = File.ReadAllBytes(file)
 
-            let tmpPath = Path.Combine(ListenerController.workingDir, "bin/Debug/netstandard2.0/dist/_framework/_bin")
-            File.WriteAllBytes(Path.Combine(tmpPath, fileName), fileContents)
-
-            hub.Clients.All.SendAsync(method = "Update", arg1 = (fileName, fileContents))
-        | Run ->
-            Task.FromResult(()) :> Task
+                printfn "Sending to clients" 
+                try
+                    do! hub.Clients.All.SendAsync(method = "Update", arg1 = (fileName, fileContents)) |> Async.AwaitTask
+                    printfn "Finished sending to clients"
+                with ex -> 
+                    printfn "Failed to send to client:\n%s" (ex.ToString())
+            | Run ->
+                do! Task.FromResult(()) |> Async.AwaitTask
+        } |> Async.StartAsTask :> Task

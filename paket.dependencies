@@ -1,6 +1,7 @@
 source https://api.nuget.org/v3/index.json
 source https://ci.appveyor.com/nuget/bolero
 storage: none
+framework: netcoreapp3.0, netstandard2.0
 
 nuget FSharp.Core
 nuget Newtonsoft.Json
@@ -14,6 +15,7 @@ nuget Elmish
 nuget Blazor.Extensions.Logging prerelease
 
 nuget Microsoft.Extensions.DependencyModel prerelease
+nuget Microsoft.Extensions.Logging prerelease
 nuget System.Runtime.Loader
 
 nuget FSharp.Json
@@ -24,22 +26,19 @@ nuget Microsoft.AspNetCore.SignalR.Client prerelease
 
 #nuget Microsoft.AspNetCore.Blazor.Browser
 nuget Microsoft.AspNetCore.Blazor.Build prerelease
+nuget Microsoft.AspNetCore.Blazor.DevServer
 clitool Microsoft.AspNetCore.Blazor.Cli prerelease
-nuget Bolero prerelease
-nuget Bolero.Build prerelease
+nuget Bolero > 0.6.0 prerelease
+nuget Bolero.Build > 0.6.0 prerelease
 
 nuget Argu
-nuget FcsWatch.Core
-nuget FcsWatch.Binary
+nuget FcsWatch.Core >= 0.7.2
+nuget FcsWatch.Binary >= 0.7.2
 
 nuget FsCheck.Xunit
 nuget xunit
 nuget xunit.runner.console
 nuget xunit.runner.visualstudio
-
-
-# Force <2.2 to prevent this issue: https://github.com/aspnet/Razor/issues/2553
-#nuget Microsoft.AspNetCore.Razor.Design ~> 2.1.0
 
 #nuget Elmish.HotReload
 
@@ -53,3 +52,6 @@ nuget Microsoft.Extensions.FileProviders.Physical prerelease
 nuget Microsoft.Extensions.Logging.Console prerelease
 nuget Microsoft.Extensions.Options prerelease
 nuget System.Runtime.CompilerServices.Unsafe prerelease
+
+# Fix FCSWatch issue
+nuget FSharp.Compiler.Service ~> 27.0

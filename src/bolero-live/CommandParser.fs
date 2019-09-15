@@ -64,7 +64,7 @@ let processListenerArgs usage (args : ParseResults<Arguments>) =
         let usage = usage ()
         failwithf "%A\n%s" ex.Message usage
 
-let processFcsWatchArgs additionalBinaryArgs usage (args : ParseResults<Arguments>) =
+let processFcsWatchArgs additionalSwitchArgs usage (args : ParseResults<Arguments>) =
     try
         let defaultConfig = BinaryConfig.DefaultValue
 
@@ -92,7 +92,7 @@ let processFcsWatchArgs additionalBinaryArgs usage (args : ParseResults<Argument
               { BinaryConfig.DefaultValue with
                   WorkingDir = workingDir
                   Webhook = Some webhook
-                  AdditionalBinaryArgs = additionalBinaryArgs }
+                  AdditionalSwitchArgs = additionalSwitchArgs }
         }
     with ex ->
         let usage = usage ()
