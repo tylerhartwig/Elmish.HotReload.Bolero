@@ -10,12 +10,15 @@ type Startup() =
 
     member __.ConfigureServices(services: IServiceCollection) =
         services.AddLogging(fun builder ->
-            builder.AddBrowserConsole() |> ignore
+            builder.AddBrowserConsole()
+                .SetMinimumLevel(LogLevel.Trace)
+            |> ignore
         ) |> ignore
 
 
     member __.Configure(app: IComponentsApplicationBuilder) =
         app.AddComponent<Main.MyApp>("#main")
+
 
 
 module Program =

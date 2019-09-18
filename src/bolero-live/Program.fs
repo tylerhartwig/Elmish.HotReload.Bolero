@@ -7,12 +7,18 @@ open System.Threading.Tasks
 open Microsoft.AspNetCore
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.Logging
 
 module Program =
 
     let CreateWebHostBuilder listenerConfig =
         let args = listenerConfig.WebArgs
         Host.CreateDefaultBuilder(args)
+            .ConfigureLogging(fun b ->
+                b.AddConsole() |> ignore
+                b.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Trace) |> ignore
+                b.AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Trace) |> ignore
+                )
             .ConfigureWebHostDefaults(fun builder ->
                 builder
                     .UseStartup<Startup>()

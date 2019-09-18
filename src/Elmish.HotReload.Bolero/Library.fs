@@ -10,25 +10,34 @@ open Microsoft.AspNetCore.SignalR.Client
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.FSharp.Quotations
+open Microsoft.JSInterop
 open System
+open System.Reflection
 
 
-let createConnection jsRuntime =
+let getBrowserConsoleLoggerProvider jsRuntime =
+    let assembly = typeof<BrowserConsoleLoggerExtensions>.Assembly
+    let providerType = assembly.DefinedTypes |> Seq.find (fun t -> t.Name = "BrowserConsoleLoggerProvider")
+    let constructor = providerType.GetConstructors().[0]
+    constructor.Invoke([| jsRuntime |]) :?> ILoggerProvider
+
+
+let createConnection jsRuntime navigationManager =
     let builder =
         HubConnectionBuilder()
-            .WithUrlBlazor(url = "http://localhost:9876/reloadhub", jsRuntime = jsRuntime)
-//            .ConfigureLogging(fun b ->
-//                b
-//                    .AddBrowserConsole()
+            .WithUrlBlazor("http://localhost:9876/reloadhub", jsRuntime, navigationManager)
+            .ConfigureLogging(fun b ->
+                b.AddProvider(getBrowserConsoleLoggerProvider jsRuntime)
+                    .AddBrowserConsole() |> ignore
 //                    .SetMinimumLevel(LogLevel.Trace) |> ignore
-//                )
+                )
 
-//    builder.Services.AddLogging(fun b ->
-//        b
-//        |> ignore) |> ignore
+    builder.Services.AddLogging(fun b ->
+        b.AddBrowserConsole() |> ignore
+        ) |> ignore
     builder.Build()
 
-let connect (hub : HubConnection) = async {
+let connect (log : ILogger) (hub : HubConnection) = async {
         let mutable connected = false
         while not connected do
             try
@@ -36,15 +45,16 @@ let connect (hub : HubConnection) = async {
                 connected <- true
             with e ->
                 do! Async.Sleep 500
-                printfn "Failed: %A" e.Message
+                log.LogInformation <| sprintf "Failed: %A" e.Message
+                log.LogTrace (e.ToString())
                 printfn "Hot reload reconnecting..."
         printfn "Connected!"
     }
 
-let startConnection (log : ILogger) jsRuntime reload =
+let startConnection (log : ILogger) jsRuntime navigationManager reload =
     log.LogTrace "Attempting to start connection"
-    let hub = createConnection jsRuntime
-    hub.On(methodName = "Update", handler = Action<string * byte[]>(fun (fileName, file) ->
+    let hub = createConnection jsRuntime navigationManager
+    hub.On(methodName = "Update", handler = Action<string, byte[]>(fun fileName file ->
         log.LogDebug <| sprintf "Received file, byte length: %i" file.Length
         try
             updateAssembly fileName file
@@ -57,10 +67,10 @@ let startConnection (log : ILogger) jsRuntime reload =
             log.LogError(ex,"Failed to reload!")
         )
     ) |> ignore
-    connect hub
+    connect log hub
 
 module Program =
-    let withHotReload log jsRuntime
+    let withHotReload log jsRuntime navigationManager
         (viewExpr : Expr<'model -> ('msg -> unit) -> 'view>)
         (updateExpr : Expr<'msg -> 'model -> 'model * Cmd<'msg>>)
         (program : Program<'arg, 'model, 'msg, 'view>) =
@@ -77,7 +87,7 @@ module Program =
 
         let reload () = reloadPipeline log updater viewResolverInfo updateResolverInfo
 
-        (startConnection log jsRuntime reload) |> Async.Start
+        (startConnection log jsRuntime navigationManager reload) |> Async.Start
 
         let erasedProg : Program<'arg, obj, obj, 'view> =
             {

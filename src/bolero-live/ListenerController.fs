@@ -39,7 +39,8 @@ type ListenerController (hub : IHubContext<ReloadHub>) =
 
                 printfn "Sending to clients" 
                 try
-                    do! hub.Clients.All.SendAsync(method = "Update", arg1 = (fileName, fileContents)) |> Async.AwaitTask
+                    do! hub.Clients.All.SendAsync(method = "Update", arg1 = fileName, arg2 = fileContents) |> Async.AwaitTask
+//                    do! hub.Clients.All.SendAsync(method = "Update", arg1 = ()) |> Async.AwaitTask
                     printfn "Finished sending to clients"
                 with ex -> 
                     printfn "Failed to send to client:\n%s" (ex.ToString())

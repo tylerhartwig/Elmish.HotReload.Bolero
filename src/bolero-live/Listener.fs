@@ -3,10 +3,11 @@ namespace Elmish.HotReload.Bolero.Cli
 open Elmish.HotReload.Bolero.Cli
 open Microsoft.AspNetCore.SignalR
 open Microsoft.AspNetCore.Builder
-open Microsoft.AspNetCore.Http
-open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
+open Microsoft.Extensions.Logging
+
+open System
 
 type Startup () =
     member this.ConfigureServices(services : IServiceCollection) =

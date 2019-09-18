@@ -349,3 +349,4 @@ MigrationBackup/
 
 #paket
 .paket/
+.ionide/*
