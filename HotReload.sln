@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project Files", "Project Fi
 ProjectSection(SolutionItems) = preProject
 	README.md = README.md
 	paket.dependencies = paket.dependencies
+	.gitignore = .gitignore
 EndProjectSection
 EndProject
 Global

@@ -349,4 +349,6 @@ MigrationBackup/
 
 #paket
 .paket/
+
+#Ionide
 .ionide/*
